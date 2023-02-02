@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EJS Is Fun</title>
+
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        padding-top: 50px;
+      }
+    </style>
+  </head>
+  <body class="container">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">EJS Is Fun</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="jumbotron">
+        <h1>This is great</h1>
+        <p>Welcome to templating using EJS</p>
+        <form
+          method="post"
+          action="/users"
+          enctype="multipart/form-data"
+          id="add-user-form"
+        >
+          <input type="text" id="avatar" name="title" />
+          <input type="text" id="avatar" name="description" />
+          <input type="number" id="avatar" name="moduleId" />
+          <input type="file" id="avatar" name="video" />
+          <input type="file" id="avatars" name="attachments" multiple />
+          <button type="submit">submit</button>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <p class="text-center text-muted">
+        &copy; Copyright 2020 The Awesome People
+      </p>
+    </footer>
+
+    <script>
+      const form = document.querySelector("#add-user-form");
+
+      form.onsubmit = async function (event) {
+        event.preventDefault();
+        // clear errors first
+        const errorPlaceholders = document.querySelectorAll("p.error");
+        for (let i = 0; i < errorPlaceholders.length; i++) {
+          errorPlaceholders[i].style.display = "none";
+        }
+        const inputErrors = document.querySelectorAll("input.error");
+        if (inputErrors.length > 0) {
+          for (let j = 0; j < inputErrors.length; j++) {
+            inputErrors[j].classList.remove("error");
+          }
+        }
+        // prepare the form data
+        const formData = new FormData(form);
+        console.log(formData);
+        // send the request to server
+        let response = await fetch("/api/tutorials", {
+          method: "POST",
+          body: formData,
+        });
+
+        console.log(response);
+        // get response
+      };
+    </script>
+  </body>
+</html>
